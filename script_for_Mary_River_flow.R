@@ -1,7 +1,8 @@
-source("auxilary_functions_fpca.R")
-source("auxilary_functions_FPLS_FPCA.R")
-source("auxilary_functions_fpqr.R")
-source("auxilary_functions_pfqr.R")
+library(here)
+
+source(here("run_order.R"))
+# Load the source files.
+run_order()
 
 gpx <- 1:24
 gpy <- 1:24
