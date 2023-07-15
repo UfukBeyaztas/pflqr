@@ -12,6 +12,8 @@
 #' 211: \int f(s,t)g(t)dt
 #' 222: \int f(s,w)g(w,t)dw
 
+options(warn=-1)
+
 integral = function(f, g = NULL, domain, type){
   if (type == 100){
     f = as.vector(f)
