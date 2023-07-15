@@ -1,12 +1,3 @@
-# Packages
-library(Matrix)
-library(fda)
-library(quantreg)
-library(refund)
-library(nloptr)
-library(goffda)
-library(expm)
-
 # Function to estimate function-on-function penalized quantile regression
 fpenqr <- function(y, x, tau, nby, nbx, nb0, gpy, gpx, alpha = 0.005)
 {
