@@ -64,6 +64,10 @@ dgp2 <- function(n, nphi = 10, gpy, gpx, sd.error, out.p = 0){
     out.indx <- sample(1:n, nout)
     data$Y[out.indx,] <- Y.out[out.indx,]
   }
+  
+  data$X <- data$X + matrix(rnorm(n*ngpx), ncol = ngpx)
+  data$Y <- data$Y + matrix(rnorm(n*ngpy), ncol = ngpy)
+  
   return(structure(as.data.frame(data, row.names = 1 : n), xindex = s, yindex = t,
                    truth = coeffun))
 }
