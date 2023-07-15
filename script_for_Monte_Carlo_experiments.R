@@ -1,9 +1,8 @@
-source("auxilary_functions_fpca.R")
-source("auxilary_functions_FPLS_FPCA.R")
-source("auxilary_functions_fpqr.R")
-source("auxilary_functions_pfqr.R")
-source("dgp1.R")
-source("dgp2.R")
+library(here)
+
+source(here("run_order.R"))
+# Load the source files.
+run_order()
 
 gpx <- (1:50)/50
 gpy <- (1:60)/60
