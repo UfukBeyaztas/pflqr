@@ -4,6 +4,8 @@ library(fda)
 library(quantreg)
 library(refund)
 library(nloptr)
+library(goffda)
+library(expm)
 
 # Function to estimate function-on-function penalized quantile regression
 fpenqr <- function(y, x, tau, nby, nbx, nb0, gpy, gpx, alpha = 0.005)
@@ -56,6 +58,10 @@ predict.fpenqr <- function(object, xnew)
 # A sub-function used to estimate function-on-function penalized quantile regression 
 penqr.lam <- function(y, x, tau, nby, nbx, nb0, gpy, gpx, l0, l1, alpha)
 {
+  
+  #y <- smooth_fun(y, argvals = gpy)
+  #x <- smooth_fun(x, argvals = gpx)
+  
   n <- dim(y)[1]
   py <- dim(y)[2]
   px <- dim(x)[2]
@@ -119,7 +125,7 @@ qr.coef.lpmat <- function(y, x, pen.mat)
 }
 
 # Function to estimate parameters of penalized quantile regression
-# via rivative-free bound-constrained optimization BOBYQA
+# via derivative-free bound-constrained optimization BOBYQA
 gqlm <- function(y, x, tau, pen.mat, alpha, n)
 {
   
@@ -160,5 +166,25 @@ qbic <- function(y, x, tau, nby, nbx, nb0, gpy, gpx, l0, l1, alpha)
   BIC_val <- log(sum(mcheck.loss(newerr, tau, alpha))) + log(nrow(newerr))
   
   return(BIC_val)
+}
+
+# Function to smooth raw data
+smooth_fun <- function(data, argvals = NULL){
+  n <- dim(data)[1]
+  p <- dim(data)[2]
+  
+  if(is.null(argvals))
+    argvals <- seq(0, 1, length.out = p)
+  nbasis <- min(40, round(p/5))
+  basis.obs <- create.bspline.basis(range(argvals), nbasis)
+  
+  sdata <- matrix(, nrow = n, ncol = p)
+  for(i in 1:n){
+    xs <- smooth.basis(argvals = argvals, y= c(data[i,]), fdParobj = basis.obs)
+    xfd <- xs$fd
+    sdata[i,] <- eval.fd(argvals, xfd)
+  }
+  
+  return(sdata)
 }
 
