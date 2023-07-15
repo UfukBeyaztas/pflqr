@@ -79,7 +79,7 @@ expand.basis = function(x, domain.x, nOrder = 4, basis.name){
   D2Lfd = int2Lfd(m=2)
   
   # tune the value of lambda for smoothing x
-  log10lambda = (-20):20
+  log10lambda = (-10):10
   gcvsave = NULL
   for (i in log10lambda) {
     lambda = 10^i
