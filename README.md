@@ -9,8 +9,7 @@ auxilary_functions_fpca.R \
 auxilary_functions_FPLS_FPCA.R \
 auxilary_functions_fpqr.R \
 auxilary_functions_pfqr.R \
-include the auxilary functions used in the estimation and prediction steps of the methods considered in the paper.
-
-The main file for the Monte-Carlo experiments is "script_for_Monte_Carlo_experiments".
-The main file for the empirical data example is "script_for_Mary_River_flow".
-The rest files include the auxilary functions.
+include the auxilary functions used in the estimation and prediction steps of the methods considered in the paper. \
+The file run_order.R is used to load all of the above auxilary functions. \
+The file script_for_Monte_Carlo_experiments.R presents example runs performed under both DGP-I and DGP-II. \
+The file script_for_Mary_River_flow.R is used to obtain the results in the Empirical data analysis section of the paper.
