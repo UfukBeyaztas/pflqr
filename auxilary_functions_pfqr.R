@@ -179,3 +179,62 @@ smooth_fun <- function(data, argvals = NULL){
   return(sdata)
 }
 
+# Function to compute RRISPE(\beta)
+rispe.b = function(beta, beta_hat, gpy, gpx){
+  f = (beta - beta_hat)^2
+  nrow.f = dim(f)[1]
+  ncol.f = dim(f)[2]
+  gap.mat = matrix(diff(gpy), nrow = nrow.f, ncol = (length(gpy)-1), byrow = TRUE)
+  r1 = matrix((rowSums(f[,-1]*gap.mat) + rowSums(f[, -ncol.f]*gap.mat))/2, nrow = nrow.f, ncol = 1)
+  
+  f1 = beta^2
+  nrow.f1 = dim(f1)[1]
+  ncol.f1 = dim(f1)[2]
+  r2 = matrix((rowSums(f1[, -1]*gap.mat) + rowSums(f1[, -ncol.f1]*gap.mat))/2, nrow = nrow.f1, ncol = 1)
+  
+  arg1 = as.vector(r1)
+  len.arg1 = length(arg1)
+  s1 = sum((arg1[-1] + arg1[-len.arg1])*diff(gpx))/2
+  
+  arg2 = as.vector(r2)
+  len.arg2 = length(arg2)
+  s2 = sum((arg2[-1] + arg2[-len.arg2])*diff(gpx))/2
+  
+  return(100*sqrt(s1/s2))
+}
+
+# Function to compute RRISPE(\alpha)
+reispe.a = function(beta, beta_hat, domain){
+    f = (beta-beta_hat)^2
+   len.f = length(f)
+   result = sum((f[-1] + f[-len.f]) * diff(domain))/2
+   
+   f2 = beta^2
+   len.f2 = length(f2)
+   result2 = sum((f2[-1] + f2[-len.f2]) * diff(domain))/2
+
+   return(100*sqrt(result/result2))
+}
+
+# Function to compute RMSPE
+rmspe <- function(y, yhat, domain){
+  
+  arg <- function(y,yhat,domain){
+    f = (y-yhat)^2
+    len.f = length(f)
+    result = sum((f[-1] + f[-len.f]) * diff(domain))/2
+    
+    f2 = y^2
+    len.f2 = length(f2)
+    result2 = sum((f2[-1] + f2[-len.f2]) * diff(domain))/2
+    
+    return(result/result2)
+  }
+  
+  fr <- numeric()
+  for(i in 1:dim(y)[1]){
+    fr[i] <- arg(y[i,], yhat[i,], domain)
+  }
+  
+  return(100*mean(sqrt(fr)))
+}
