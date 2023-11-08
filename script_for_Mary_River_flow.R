@@ -101,19 +101,21 @@ for(sim in 1:50){
     preds.fpqr.025 <- fpqr.model.025$predicted.values
     preds.fpqr.975 <- fpqr.model.975$predicted.values
     
+    Y.test <- t(as.matrix(Y.test))
+    
     # MSPE values
     # pffr
-    mspe.pffr[sim] <- mean((Y.test-preds.pffr)^2)
+    mspe.pffr[sim] <- rmspe(Y.test, preds.pffr,  gpy)
     # flqr
-    mspe.fpca[sim] <- mean((Y.test-preds.fpca)^2)
+    mspe.fpca[sim] <- rmspe(Y.test, preds.fpca, gpy)
     # pflqr (proposed method)
-    mspe.pffqr[sim] <- mean((Y.test-preds.pffqr)^2) 
+    mspe.pffqr[sim] <- rmspe(Y.test, preds.pffqr, gpy) 
     # fpqr
-    mspe.fpqr[sim] <- mean((Y.test-preds.fpqr)^2)
+    mspe.fpqr[sim] <- rmspe(Y.test, preds.fpqr, gpy)
     # fplsr
-    mspe.fplsr[sim] <- mean((Y.test-preds.fplsr)^2)
+    mspe.fplsr[sim] <- rmspe(Y.test, preds.fplsr, gpy)
     # fpcr
-    mspe.fpcr[sim] <- mean((Y.test-preds.fpcr)^2)
+    mspe.fpcr[sim] <- rmspe(Y.test, preds.fpcr, gpy)
     
     sco.cpd.fpca[sim,] <- interval_score(Y.test,fpca.model.025$pred, fpca.model.975$pred, 0.05)
     sco.cpd.pffqr[sim,] <- interval_score(Y.test,preds.pffqr.025, preds.pffqr.975, 0.05)
